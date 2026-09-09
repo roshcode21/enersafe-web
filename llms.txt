@@ -1,31 +1,31 @@
 # ENERSAFE
 
-> Empresa mexicana especializada en cumplimiento regulatorio digital para Estaciones de Servicio de gasolina y diésel del Sector de Hidrocarburos.
+> Empresa mexicana especializada en sistemas digitales propios, seguimiento técnico y servicios regulatorios para Estaciones de Servicio de gasolina y diésel.
 
-ENERSAFE desarrolla y opera sistemas digitales que permiten a las Estaciones de Servicio cumplir con las obligaciones que les imponen las autoridades federales del sector: SAT, ASEA, CNE, STPS, PROFECO, SEMARNAT y Protección Civil.
+ENERSAFE desarrolla MIDESAFE SGM y GASAFE Plus. La tecnología forma parte de un servicio continuo: especialistas ENERSAFE revisan información registrada, dan seguimiento a observaciones y vencimientos, brindan asistencia técnica y generan reportes dentro del alcance contratado.
 
-## Productos
+## Sistemas principales
 
-- [MIDESAFE SGM](https://enersafe.com.mx/midesafe-sgm.html): Sistema de Gestión de la Medición digital conforme a NMX-CC-10012-IMNC-2004 y los Anexos 21, 22 y 23 del SAT. Requisito para el Certificado Anual de Cumplimiento SAT.
-- [GASAFE Plus](https://enersafe.com.mx/gasafe-plus.html): Herramienta digital y acompañamiento especializado para la conformación, dictaminación, registro y operación continua del SASISOPA ante la ASEA, y cumplimiento de la NOM-005-ASEA-2016.
-- [Cumplimiento integral](https://enersafe.com.mx/servicios.html): Auditorías, registros ambientales, licencias de funcionamiento, programas de emergencias y gestiones ante más de 8 autoridades federales y municipales.
+- [MIDESAFE SGM](https://enersafe.com.mx/midesafe-sgm.html): gestión digital del Sistema de Gestión de la Medición. Organiza actividades, registros, cálculos y evidencia del SGM. Puede trabajar con distintos sistemas de control volumétrico. En estaciones con ControlGAS® existe una integración específica que permite vincular información y evitar doble captura en procesos integrados; con otros sistemas, el intercambio y validación se realizan manualmente.
+- [GASAFE Plus](https://enersafe.com.mx/gasafe-plus.html): sistema digital para la conformación e implementación continua del SASISOPA y para organizar actividades y evidencias operativas relacionadas con la NOM-005-ASEA-2016. La NOM-005 conserva su alcance técnico y evaluación de conformidad independiente.
+- [MIDESAFE Autoconsumo](https://enersafe.com.mx/autoconsumo.html): aplicación de la gestión del SGM a instalaciones de autoconsumo.
+- [Servicios especializados](https://enersafe.com.mx/servicios.html): gestiones, estudios, dictámenes y servicios complementarios ante distintas autoridades.
 
-## Diferenciador clave
+## Seguimiento técnico
 
-Cada Estación de Servicio cuenta con un especialista dedicado que revisa su cumplimiento de lunes a viernes, 8am–5pm. No es soporte genérico: es un ingeniero que conoce la estación a detalle y reporta mensualmente su avance.
+Cada estación cuenta con un especialista ENERSAFE dentro del alcance contratado. El especialista revisa actividades y evidencias registradas, identifica observaciones y próximos vencimientos, da seguimiento con el responsable de la estación, brinda asistencia técnica y capacitación, y genera reportes periódicos.
 
-## Marco regulatorio
+ENERSAFE no sustituye las responsabilidades del Regulado ni las evaluaciones, verificaciones o dictámenes que correspondan a Terceros Autorizados, Unidades de Inspección u otras figuras acreditadas.
 
-Las Estaciones de Servicio responden simultáneamente ante:
-- SAT: control volumétrico y SGM (NMX-CC-10012-IMNC-2004, Resolución 811/2015, Anexos 21-23)
-- ASEA: SASISOPA (18 elementos) y NOM-005-ASEA-2016
-- CNE (antes CRE, desaparecida en marzo 2025): dictamen anual NOM-005
-- STPS: normativa laboral
-- PROFECO: NOM-005-SCFI-2017
-- SEMARNAT: registros ambientales y COA
-- Protección Civil y autoridades municipales
+## Marco regulatorio de referencia
 
-## Datos de contacto
+- SGM y medición: NMX-CC-10012-IMNC-2004 y RES/811/2015.
+- Controles volumétricos: Resolución Miscelánea Fiscal 2026 y Anexos 21, 22 y 23, entre otras disposiciones aplicables.
+- SASISOPA: disposiciones de la ASEA y sus 18 elementos interrelacionados.
+- NOM-005-ASEA-2016: diseño, construcción, operación y mantenimiento de Estaciones de Servicio para almacenamiento y expendio de diésel y gasolinas.
+- Otros frentes: CNE, STPS, PROFECO, Protección Civil y autoridades ambientales, de acuerdo con el alcance aplicable a cada instalación.
+
+## Contacto
 
 - Teléfono: (55) 2155 2325
 - Correo: contacto@enersafe.com.mx
@@ -38,9 +38,7 @@ Las Estaciones de Servicio responden simultáneamente ante:
 - [MIDESAFE SGM](https://enersafe.com.mx/midesafe-sgm.html)
 - [GASAFE Plus](https://enersafe.com.mx/gasafe-plus.html)
 - [Autoconsumo](https://enersafe.com.mx/autoconsumo.html)
-- [Cumplimiento integral](https://enersafe.com.mx/servicios.html)
+- [Servicios](https://enersafe.com.mx/servicios.html)
 - [Nosotros](https://enersafe.com.mx/nosotros.html)
 - [Contacto](https://enersafe.com.mx/contacto.html)
-- [Preguntas frecuentes](https://enersafe.com.mx/#faq)
-
-- [Preguntas frecuentes](https://enersafe.com.mx/preguntas-frecuentes.html)
+- [Consultas frecuentes](https://enersafe.com.mx/preguntas-frecuentes.html)

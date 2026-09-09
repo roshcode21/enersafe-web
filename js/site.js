@@ -4,9 +4,9 @@
 
 /* —— Índice del buscador (editable) —— */
 const SEARCH_INDEX=[
-  {tag:"MIDESAFE SGM · SAT",title:"MIDESAFE SGM",snippet:"Sistema de Gestión de la Medición conforme a NMX-CC-10012-IMNC-2004 y los Anexos 21, 22 y 23 del SAT.",tags:"sat sgm medicion control volumetrico certificado anual anexos 21 22 23 incertidumbre balance metrologia",url:"midesafe-sgm.html"},
-  {tag:"Autoconsumo · SAT",title:"MIDESAFE SGM Autoconsumo",snippet:"La gestión digital de la medición adaptada a estaciones de autoconsumo, con cumplimiento ante el SAT.",tags:"autoconsumo sat sgm medicion estacion",url:"midesafe-sgm.html#autoconsumo"},
-  {tag:"GASAFE Plus · ASEA",title:"GASAFE Plus",snippet:"Herramienta digital y acompañamiento técnico para la implementación del SASISOPA y la NOM-005-ASEA-2016.",tags:"asea sasisopa nom-005 nom005 gasafe especialista dictamen unidad de inspeccion seguridad medio ambiente 18 elementos",url:"gasafe-plus.html"},
+  {tag:"MIDESAFE SGM · SAT",title:"MIDESAFE SGM",snippet:"Gestión digital del SGM, con actividades, cálculos, evidencia y seguimiento técnico. Compatible con distintos controles volumétricos e integración específica con ControlGAS®.",tags:"sat sgm medicion control volumetrico controlgas anexos 21 22 23 incertidumbre balance metrologia",url:"midesafe-sgm.html"},
+  {tag:"Autoconsumo · SAT",title:"MIDESAFE Autoconsumo",snippet:"Gestión digital del SGM para instalaciones de autoconsumo, con actividades, medición, cálculos, evidencia y seguimiento técnico.",tags:"autoconsumo sat sgm medicion instalacion",url:"autoconsumo.html"},
+  {tag:"GASAFE Plus · ASEA",title:"GASAFE Plus",snippet:"Sistema digital para la implementación continua del SASISOPA y el seguimiento de actividades y evidencias operativas relacionadas con la NOM-005-ASEA-2016.",tags:"asea sasisopa nom-005 nom005 gasafe especialista tercero autorizado seguridad medio ambiente 18 elementos",url:"gasafe-plus.html"},
   {tag:"Cumplimiento · ASEA",title:"Auditorías SASISOPA",snippet:"Auditorías internas y externas del SASISOPA, dictaminación e informes de desempeño.",tags:"asea sasisopa auditoria interna externa dictaminacion informe desempeno semestral conclusion",url:"servicios.html"},
   {tag:"Cumplimiento · SAT",title:"Auditorías SGM",snippet:"Auditorías presenciales y remotas del Sistema de Gestión de la Medición.",tags:"sat sgm auditoria presencial remota medicion",url:"servicios.html"},
   {tag:"Cumplimiento · SEMARNAT",title:"Registros ambientales y COA",snippet:"RME, RP, Cédula de Operación Anual, análisis de riesgo, informe preventivo e impacto social.",tags:"semarnat rme rp residuos peligrosos manejo especial coa cedula operacion anual analisis de riesgo informe preventivo impacto social monitoreo ambiental pre planos",url:"servicios.html"},
@@ -19,33 +19,27 @@ const SEARCH_INDEX=[
 /* —— Testimonios (9) — edítalos aquí. ES y EN —— */
 const TESTIMONIOS=[
   {ini:"SP",nom:"Servicio Pontellas",sub:"S.A. de C.V.",
-   es:"Se nos hace muy práctica, ya que está bien estructurada, completa, fácil y entendible. No tenemos queja alguna, solo agradecer el buen trato y la atención que nos brindan.",
-   en:"We find it very practical: well structured, complete, easy and understandable. We have no complaints, only gratitude for the great treatment and attention."},
+   es:"Se nos hace muy práctica: está bien estructurada, completa, fácil y entendible. Agradecemos el trato y la atención que nos brindan.",
+   en:"We find it very practical: well structured, complete, easy to use and understandable. We appreciate the service and attention provided."},
   {ini:"BT",nom:"BP Turpial",sub:"Estación de Servicio",
-   es:"Reconocer el apoyo oportuno en el manejo del portal y la asistencia del técnico de manera puntual, esperando seguir trabajando juntos para cumplir con este requisito.",
-   en:"We acknowledge the timely support managing the portal and the technician's punctual assistance, hoping to keep working together to meet this requirement."},
+   es:"Reconocemos el apoyo oportuno en el manejo del portal y la asistencia puntual del técnico para seguir cumpliendo con este requisito.",
+   en:"We recognize the timely support in managing the portal and the technician's prompt assistance in continuing to meet this requirement."},
+  {ini:"BL",nom:"BP Servicio Libramiento Norte",sub:"Estación de Servicio",
+   es:"La atención y asistencia han sido muy buenas, especialmente en el monitoreo.",
+   en:"The attention and assistance have been very good, especially the monitoring."},
   {ini:"BQ",nom:"BP Bernardo Quintana",sub:"Estación de Servicio",
-   es:"El portal ya lo llevamos en orden de acuerdo a las actividades asignadas. Muchísimas gracias al técnico especialista que nos apoya y orienta en cualquier momento.",
-   en:"We now keep the portal in order according to the assigned activities. Many thanks to the specialist technician who supports and guides us at any time."},
-  {ini:"GE",nom:"Grupo Energético",sub:"Operador multiestación",
-   es:"Manejar varias estaciones desde un solo lugar nos cambió la operación. El especialista conoce cada una y nos avisa antes de cualquier vencimiento.",
-   en:"Running several stations from one place changed our operation. The specialist knows each one and warns us before any deadline."},
-  {ini:"ES",nom:"Estación San Ángel",sub:"Estación de Servicio",
-   es:"Antes vivíamos con la duda de si íbamos a pasar la verificación. Ahora la evidencia ya está lista y ordenada cuando llega el momento.",
-   en:"We used to worry about whether we'd pass inspection. Now the evidence is ready and organized when the time comes."},
-  {ini:"CR",nom:"Combustibles del Centro",sub:"Grupo gasolinero",
-   es:"La diferencia es el acompañamiento. No es un sistema que te dejan solo, es gente que revisa y responde cuando lo necesitas.",
-   en:"The difference is the support. It's not a system that leaves you alone; it's people who review and respond when you need it."},
-  {ini:"EP",nom:"Estación El Roble",sub:"Estación de Servicio",
-   es:"La medición y el control volumétrico quedaron conectados sin que tuviéramos que capturar dos veces. Nos ahorra horas cada mes.",
-   en:"Measurement and volumetric control got connected without us having to enter data twice. It saves us hours every month."},
-  {ini:"SD",nom:"Servicio Diamante",sub:"Estación de Servicio",
-   es:"Los reportes mensuales nos dan claridad de cómo vamos. Sabemos qué falta y qué ya está cubierto, sin tecnicismos confusos.",
-   en:"The monthly reports give us clarity on how we're doing. We know what's missing and what's covered, without confusing jargon."},
-  {ini:"PN",nom:"Petro Norte",sub:"Operador multiestación",
-   es:"Cumplir con tantas dependencias nos abrumaba. ENERSAFE lo volvió un proceso ordenado y predecible para todas nuestras estaciones.",
-   en:"Complying with so many authorities overwhelmed us. ENERSAFE turned it into an orderly, predictable process for all our stations."}
-];
+   es:"Agradecemos el apoyo, las recomendaciones y el tiempo que dedican a acompañarnos en el uso de la herramienta.",
+   en:"We appreciate the support, recommendations and time dedicated to helping us use the tool."},
+  {ini:"BC",nom:"BP La Calma",sub:"Estación de Servicio",
+   es:"La plataforma es de mucha utilidad, junto con el apoyo y seguimiento de sus técnicos.",
+   en:"The platform is very useful, together with the support and follow-up provided by the technical team."},
+  {ini:"JB",nom:"BP JB Lobos",sub:"Estación de Servicio",
+   es:"Llevamos el portal en orden de acuerdo con las actividades asignadas y agradecemos al técnico especialista que nos apoya y orienta.",
+   en:"We keep the portal organized according to assigned activities and appreciate the specialist technician who supports and guides us."},
+  {ini:"LM",nom:"BP López Mateos",sub:"Estación de Servicio",
+   es:"Agradecemos el apoyo de las capacitaciones y la atención brindada.",
+   en:"We appreciate the training support and the attention provided."}
+]
 
 /* —— Tema —— */
 (function(){if(localStorage.getItem('enersafe-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
