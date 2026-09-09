@@ -6,6 +6,7 @@ on:
       - preview
     paths:
       - '.proposal_payload/v3chunk17.txt'
+      - '.proposal_payload/v3trigger.txt'
 
 permissions:
   contents: write
@@ -32,10 +33,14 @@ jobs:
           from pathlib import Path
           p = Path('js/site.js')
           s = p.read_text()
-          old = "\n]\n\n/* —— Tema —— */"
-          new = "\n];\n\n/* —— Tema —— */"
-          if old in s:
-              s = s.replace(old, new, 1)
+          marker = '/* —— Tema —— */'
+          i = s.index(marker)
+          before = s[:i]
+          trimmed = before.rstrip()
+          if trimmed.endswith(']'):
+              pos = before.rfind(']')
+              before = before[:pos+1] + ';' + before[pos+1:]
+              s = before + s[i:]
               p.write_text(s)
           PY
 
