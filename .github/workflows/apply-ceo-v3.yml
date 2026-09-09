@@ -24,6 +24,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          echo 'CHUNK CHECKSUMS'
+          sha256sum .proposal_payload/v3chunk*.txt
           cat .proposal_payload/v3chunk*.txt > /tmp/enersafe-v3.b64
           base64 --decode /tmp/enersafe-v3.b64 > /tmp/enersafe-v3.tgz
           echo '34c114ee90ffe3a51e525f6e6bfef412e6ec874717bc884f05ff267d9ed5b89d  /tmp/enersafe-v3.tgz' | sha256sum -c -
