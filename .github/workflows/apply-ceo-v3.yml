@@ -5,8 +5,7 @@ on:
     branches:
       - preview
     paths:
-      - '.proposal_payload/v3chunk17.txt'
-      - '.proposal_payload/v3trigger.txt'
+      - '.proposal_payload/v3repair-trigger.txt'
 
 permissions:
   contents: write
@@ -24,9 +23,41 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          echo 'CHUNK CHECKSUMS'
-          sha256sum .proposal_payload/v3chunk*.txt
-          cat .proposal_payload/v3chunk*.txt > /tmp/enersafe-v3.b64
+
+          echo '6ca1fa5bc2287f9040b87c201e10eaecaebbe533dbee28f27f3919674e8de5f4  .proposal_payload/repair05a.txt' | sha256sum -c -
+          echo 'ae2ecf40e5d99d6bda247bb6c236a78265ef85833db26a0690338d8c31786417  .proposal_payload/repair05b.txt' | sha256sum -c -
+          echo 'd1196d36dc79332d6e1cf7508af762a06fec8c4b84707ccfa2e6f610e70a165f  .proposal_payload/repair06a.txt' | sha256sum -c -
+          echo 'a049fc6ca564fa8cd450c70dccffe44f22170fa16d39802d0351f7643e96f633  .proposal_payload/repair06b.txt' | sha256sum -c -
+          echo '75f51c2a09e2ca0ea0be0e7e84e27d65fef9ac42bd4cbeb4c2ecbf48c262f274  .proposal_payload/repair10a.txt' | sha256sum -c -
+          echo '9cbc4e6e50846d9778ac0692166ed66a29cf4045464392f83679c095ff59137f  .proposal_payload/repair10b.txt' | sha256sum -c -
+          echo 'd9f92d4ddd441df6f39cb6be010788c1edf9fa20bedb17bc372672dfbae07d1d  .proposal_payload/repair14a.txt' | sha256sum -c -
+          echo 'a7efddfe591d346ea75debb0ace6936215fec3837ffcfe89170a7023d96e3cbb  .proposal_payload/repair14b.txt' | sha256sum -c -
+
+          cat \
+            .proposal_payload/v3chunk00.txt \
+            .proposal_payload/v3chunk01.txt \
+            .proposal_payload/v3chunk02.txt \
+            .proposal_payload/v3chunk03.txt \
+            .proposal_payload/v3chunk04.txt \
+            .proposal_payload/repair05a.txt \
+            .proposal_payload/repair05b.txt \
+            .proposal_payload/repair06a.txt \
+            .proposal_payload/repair06b.txt \
+            .proposal_payload/v3chunk07.txt \
+            .proposal_payload/v3chunk08.txt \
+            .proposal_payload/v3chunk09.txt \
+            .proposal_payload/repair10a.txt \
+            .proposal_payload/repair10b.txt \
+            .proposal_payload/v3chunk11.txt \
+            .proposal_payload/v3chunk12.txt \
+            .proposal_payload/v3chunk13.txt \
+            .proposal_payload/repair14a.txt \
+            .proposal_payload/repair14b.txt \
+            .proposal_payload/v3chunk15.txt \
+            .proposal_payload/v3chunk16.txt \
+            .proposal_payload/v3chunk17.txt \
+            > /tmp/enersafe-v3.b64
+
           base64 --decode /tmp/enersafe-v3.b64 > /tmp/enersafe-v3.tgz
           echo '34c114ee90ffe3a51e525f6e6bfef412e6ec874717bc884f05ff267d9ed5b89d  /tmp/enersafe-v3.tgz' | sha256sum -c -
           tar -xzf /tmp/enersafe-v3.tgz -C .
@@ -38,8 +69,7 @@ jobs:
           marker = '/* —— Tema —— */'
           i = s.index(marker)
           before = s[:i]
-          trimmed = before.rstrip()
-          if trimmed.endswith(']'):
+          if before.rstrip().endswith(']'):
               pos = before.rfind(']')
               before = before[:pos+1] + ';' + before[pos+1:]
               s = before + s[i:]
