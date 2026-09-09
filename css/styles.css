@@ -1933,3 +1933,15 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
   .ctc-wa-dark { margin: 16px 18px; }
   .ctc-panel-data { padding: 14px 22px 20px; }
 }
+
+/* CEO PREVIEW HOTFIX · 2026-09-09
+   En la propuesta navegable todo el contenido debe ser visible aun si
+   IntersectionObserver o las animaciones de entrada no se inicializan. */
+.reveal,
+.reveal-l,
+.reveal-r,
+.reveal-scale {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
