@@ -1,12 +1,11 @@
-name: Apply ENERSAFE CEO proposal
+name: Apply ENERSAFE CEO proposal v2
 
 on:
   push:
     branches:
       - preview
     paths:
-      - '.proposal_payload/chunk11.txt'
-      - '.github/workflows/apply-ceo-proposal.yml'
+      - '.proposal_payload/v2chunk07.txt'
 
 permissions:
   contents: write
@@ -20,31 +19,23 @@ jobs:
         with:
           ref: preview
 
-      - name: Rebuild, apply proposal and ensure content visibility
+      - name: Rebuild and validate CEO proposal v2
         shell: bash
         run: |
           set -euo pipefail
-          cat .proposal_payload/chunk*.txt > /tmp/enersafe-proposal.b64
-          base64 --decode /tmp/enersafe-proposal.b64 > /tmp/enersafe-proposal.tgz
-          tar -xzf /tmp/enersafe-proposal.tgz -C .
-
-          cat >> css/styles.css <<'CSSFIX'
-
-          /* CEO PREVIEW HOTFIX · 2026-09-09
-             En la propuesta navegable todo el contenido debe ser visible aun si
-             IntersectionObserver o las animaciones de entrada no se inicializan. */
-          .reveal,
-          .reveal-l,
-          .reveal-r,
-          .reveal-scale {
-            opacity: 1 !important;
-            visibility: visible !important;
-            transform: none !important;
-          }
-          CSSFIX
+          cat .proposal_payload/v2chunk*.txt > /tmp/enersafe-v2.b64
+          base64 --decode /tmp/enersafe-v2.b64 > /tmp/enersafe-v2.tgz
+          echo '4f2aab36077aca02a727fe888f638e9a0fffdac047f40b43b99aee1e80b8af5e  /tmp/enersafe-v2.tgz' | sha256sum -c -
+          tar -xzf /tmp/enersafe-v2.tgz -C .
+          node --check js/site.js
+          grep -q 'Tu SGM, organizado y en' index.html
+          grep -q 'MIDESAFE se implementa con el sistema de Control Volumétrico' midesafe-sgm.html
+          if grep -q 'Trabaja con distintos controles volumétricos' index.html midesafe-sgm.html autoconsumo.html; then
+            echo 'Found rejected copy'; exit 1
+          fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html midesafe-sgm.html gasafe-plus.html autoconsumo.html servicios.html nosotros.html contacto.html preguntas-frecuentes.html js/site.js css/styles.css llms.txt sitemap.xml
-          git commit -m "Apply CEO proposal with visibility hotfix"
+          git commit -m "Rebuild ENERSAFE CEO presentation proposal"
           git push origin preview
