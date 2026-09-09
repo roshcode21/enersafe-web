@@ -1,0 +1,54 @@
+# ENERSAFE — robots.txt 2026
+# Actualizado: junio 2026
+
+# ——— Buscadores tradicionales ———
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# ——— OpenAI / ChatGPT ———
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# ——— Anthropic / Claude ———
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# ——— Google AI / Gemini ———
+User-agent: Google-Extended
+Allow: /
+
+# ——— Perplexity ———
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# ——— Apple Intelligence ———
+User-agent: Applebot-Extended
+Allow: /
+
+# ——— Regla general ———
+User-agent: *
+Allow: /
+
+# ——— Sitemap ———
+Sitemap: https://enersafe.com.mx/sitemap.xml

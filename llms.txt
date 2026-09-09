@@ -1,0 +1,46 @@
+# ENERSAFE
+
+> Empresa mexicana especializada en cumplimiento regulatorio digital para Estaciones de Servicio de gasolina y diésel del Sector de Hidrocarburos.
+
+ENERSAFE desarrolla y opera sistemas digitales que permiten a las Estaciones de Servicio cumplir con las obligaciones que les imponen las autoridades federales del sector: SAT, ASEA, CNE, STPS, PROFECO, SEMARNAT y Protección Civil.
+
+## Productos
+
+- [MIDESAFE SGM](https://enersafe.com.mx/midesafe-sgm.html): Sistema de Gestión de la Medición digital conforme a NMX-CC-10012-IMNC-2004 y los Anexos 21, 22 y 23 del SAT. Requisito para el Certificado Anual de Cumplimiento SAT.
+- [GASAFE Plus](https://enersafe.com.mx/gasafe-plus.html): Herramienta digital y acompañamiento especializado para la conformación, dictaminación, registro y operación continua del SASISOPA ante la ASEA, y cumplimiento de la NOM-005-ASEA-2016.
+- [Cumplimiento integral](https://enersafe.com.mx/servicios.html): Auditorías, registros ambientales, licencias de funcionamiento, programas de emergencias y gestiones ante más de 8 autoridades federales y municipales.
+
+## Diferenciador clave
+
+Cada Estación de Servicio cuenta con un especialista dedicado que revisa su cumplimiento de lunes a viernes, 8am–5pm. No es soporte genérico: es un ingeniero que conoce la estación a detalle y reporta mensualmente su avance.
+
+## Marco regulatorio
+
+Las Estaciones de Servicio responden simultáneamente ante:
+- SAT: control volumétrico y SGM (NMX-CC-10012-IMNC-2004, Resolución 811/2015, Anexos 21-23)
+- ASEA: SASISOPA (18 elementos) y NOM-005-ASEA-2016
+- CNE (antes CRE, desaparecida en marzo 2025): dictamen anual NOM-005
+- STPS: normativa laboral
+- PROFECO: NOM-005-SCFI-2017
+- SEMARNAT: registros ambientales y COA
+- Protección Civil y autoridades municipales
+
+## Datos de contacto
+
+- Teléfono: (55) 2155 2325
+- Correo: contacto@enersafe.com.mx
+- Dirección: Av. Homero 1422, Polanco, C.P. 11550, CDMX
+- Web: https://enersafe.com.mx
+
+## Páginas
+
+- [Inicio](https://enersafe.com.mx/)
+- [MIDESAFE SGM](https://enersafe.com.mx/midesafe-sgm.html)
+- [GASAFE Plus](https://enersafe.com.mx/gasafe-plus.html)
+- [Autoconsumo](https://enersafe.com.mx/autoconsumo.html)
+- [Cumplimiento integral](https://enersafe.com.mx/servicios.html)
+- [Nosotros](https://enersafe.com.mx/nosotros.html)
+- [Contacto](https://enersafe.com.mx/contacto.html)
+- [Preguntas frecuentes](https://enersafe.com.mx/#faq)
+
+- [Preguntas frecuentes](https://enersafe.com.mx/preguntas-frecuentes.html)
