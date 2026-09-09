@@ -1,11 +1,11 @@
-name: Apply ENERSAFE CEO proposal v2
+name: Apply ENERSAFE CEO proposal v4
 
 on:
   push:
     branches:
       - preview
     paths:
-      - '.proposal_payload/v2chunk07.txt'
+      - '.proposal_payload/v4chunk03.txt'
 
 permissions:
   contents: write
@@ -19,23 +19,28 @@ jobs:
         with:
           ref: preview
 
-      - name: Rebuild and validate CEO proposal v2
+      - name: Apply and validate CEO proposal v4
         shell: bash
         run: |
           set -euo pipefail
-          cat .proposal_payload/v2chunk*.txt > /tmp/enersafe-v2.b64
-          base64 --decode /tmp/enersafe-v2.b64 > /tmp/enersafe-v2.tgz
-          echo '4f2aab36077aca02a727fe888f638e9a0fffdac047f40b43b99aee1e80b8af5e  /tmp/enersafe-v2.tgz' | sha256sum -c -
-          tar -xzf /tmp/enersafe-v2.tgz -C .
+          cat .proposal_payload/v4chunk*.txt > /tmp/enersafe-v4.b64
+          base64 --decode /tmp/enersafe-v4.b64 > /tmp/enersafe-v4.patch.xz
+          echo '829bc77310e5b870b9c047b1637fed5fccc2c333c33119b1b3f411314ec891f8  /tmp/enersafe-v4.patch.xz' | sha256sum -c -
+          xz -dc /tmp/enersafe-v4.patch.xz > /tmp/enersafe-v4.patch
+          patch -p1 < /tmp/enersafe-v4.patch
+
           node --check js/site.js
-          grep -q 'Tu SGM, organizado y en' index.html
-          grep -q 'MIDESAFE se implementa con el sistema de Control Volumétrico' midesafe-sgm.html
-          if grep -q 'Trabaja con distintos controles volumétricos' index.html midesafe-sgm.html autoconsumo.html; then
-            echo 'Found rejected copy'; exit 1
+          grep -q 'Todo tu SGM en una sola plataforma' index.html
+          grep -q 'Todo tu SGM en una sola plataforma' midesafe-sgm.html
+          grep -q 'El sistema organiza. Tu especialista ENERSAFE da seguimiento.' index.html
+          grep -q 'La operación de MIDESAFE no requiere cambiar' midesafe-sgm.html
+          grep -q 'SASISOPA y NOM-005, con seguimiento durante la operación.' gasafe-plus.html
+          if grep -q 'Trabaja con distintos controles volumétricos' index.html midesafe-sgm.html autoconsumo.html servicios.html; then
+            echo 'Found rejected control-volumetric copy'; exit 1
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html midesafe-sgm.html gasafe-plus.html autoconsumo.html servicios.html nosotros.html contacto.html preguntas-frecuentes.html js/site.js css/styles.css llms.txt sitemap.xml
-          git commit -m "Rebuild ENERSAFE CEO presentation proposal"
+          git add index.html midesafe-sgm.html gasafe-plus.html autoconsumo.html servicios.html nosotros.html contacto.html preguntas-frecuentes.html js/site.js llms.txt sitemap.xml
+          git commit -m "Publish ENERSAFE CEO proposal v4"
           git push origin preview
