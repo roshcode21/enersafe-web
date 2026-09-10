@@ -1,0 +1,36 @@
+name: Apply L.A. consultations integration
+on:
+  push:
+    paths:
+      - '.github/workflows/apply-consultas-la.yml'
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: preview
+      - name: Apply adapted L.A. consultation content
+        run: python scripts/apply_consultas_la.py
+      - name: Validate generated site
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          faq=Path('preguntas-frecuentes.html').read_text(encoding='utf-8')
+          home=Path('index.html').read_text(encoding='utf-8')
+          js=Path('js/site.js').read_text(encoding='utf-8')
+          assert 'CONTROLGAS' not in faq.upper()
+          assert faq.count('class="faq-item"') >= 21
+          assert 'Consultas ENERSAFE' in home
+          assert 'title:"Consultas ENERSAFE"' in js
+          print('Validation OK')
+          PY
+      - name: Commit generated changes
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html preguntas-frecuentes.html js/site.js *.html
+          git commit -m 'Replace consultations with L.A. reviewed knowledge base' || exit 0
+          git push origin HEAD:preview
