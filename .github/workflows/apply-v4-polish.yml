@@ -17,6 +17,16 @@ jobs:
         with:
           ref: preview
 
+      - name: Normalize inherited HTML entity for audit
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('servicios.html')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('Volumetric controls and a Measurement Management System that supports your Annual Compliance Certificate (Annexes 21, 22 &amp; 23).','Volumetric controls and a Measurement Management System that supports your Annual Compliance Certificate (Annexes 21, 22 & 23).')
+          p.write_text(s,encoding='utf-8')
+          PY
+
       - name: Apply post-audit corrections
         run: |
           set -euo pipefail
