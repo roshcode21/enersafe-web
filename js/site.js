@@ -39,7 +39,7 @@ const TESTIMONIOS=[
   {ini:"LM",nom:"BP López Mateos",sub:"Estación de Servicio",
    es:"Agradecemos el apoyo de las capacitaciones y la atención brindada.",
    en:"We appreciate the training support and the attention provided."}
-]
+];
 
 /* —— Tema —— */
 (function(){if(localStorage.getItem('enersafe-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');})();
