@@ -1,0 +1,24 @@
+name: Diagnose ENERSAFE copy
+
+on:
+  push:
+    branches: [preview]
+    paths:
+      - '.proposal_payload/diagnose-trigger.txt'
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: preview
+      - name: Find copy to revise
+        shell: bash
+        run: |
+          echo '=== CONTROLGAS ==='
+          grep -RniEi 'controlgas' -- index.html midesafe-sgm.html gasafe-plus.html autoconsumo.html servicios.html nosotros.html contacto.html preguntas-frecuentes.html js/site.js llms.txt || true
+          echo '=== SOSTIENE / SOSTENER ==='
+          grep -RniEi 'sostien|sostener|sostiene|sostenerse' -- index.html midesafe-sgm.html gasafe-plus.html autoconsumo.html servicios.html nosotros.html contacto.html preguntas-frecuentes.html js/site.js llms.txt || true
+          echo '=== OTHER ABSTRACT COPY ==='
+          grep -RniEi 'hablan entre|viaja sola|frente común|todo al día|siempre listo|se queda en una carpeta|sostener|responde por tu cumplimiento|detrás del sistema|en orden|sin fricción|centro de operación' -- index.html midesafe-sgm.html gasafe-plus.html autoconsumo.html servicios.html nosotros.html contacto.html preguntas-frecuentes.html js/site.js llms.txt || true
