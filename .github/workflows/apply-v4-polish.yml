@@ -1,0 +1,48 @@
+name: Apply ENERSAFE v4 polish
+
+on:
+  push:
+    branches: [preview]
+    paths:
+      - '.proposal_payload/v4-polish-trigger.txt'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: preview
+
+      - name: Apply post-audit corrections
+        run: |
+          set -euo pipefail
+          python .proposal_payload/v4_polish.py
+
+      - name: Validate JavaScript
+        run: node --check js/site.js
+
+      - name: Validate structured data
+        run: |
+          python - <<'PY'
+          import json, re
+          from pathlib import Path
+          for name in ['index.html','midesafe-sgm.html','gasafe-plus.html','autoconsumo.html','servicios.html','nosotros.html','contacto.html','preguntas-frecuentes.html']:
+              s=Path(name).read_text(encoding='utf-8')
+              for block in re.findall(r'<script[^>]+type="application/ld\+json"[^>]*>(.*?)</script>',s,re.S):
+                  json.loads(block)
+          print('Structured data OK')
+          PY
+
+      - name: Commit polished audited preview
+        run: |
+          set -euo pipefail
+          rm -f .proposal_payload/v4_polish.py .proposal_payload/v4-polish-trigger.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "V4 polish: synchronize language and authority scopes"
+          git push origin HEAD:preview
