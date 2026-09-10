@@ -13,12 +13,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: preview
-      - name: Find copy to revise
+      - name: Review visible copy
         shell: bash
         run: |
+          FILES='index.html midesafe-sgm.html gasafe-plus.html autoconsumo.html servicios.html nosotros.html contacto.html preguntas-frecuentes.html'
           echo '=== CONTROLGAS ==='
-          grep -RniEi 'controlgas' -- index.html midesafe-sgm.html gasafe-plus.html autoconsumo.html servicios.html nosotros.html contacto.html preguntas-frecuentes.html js/site.js llms.txt || true
+          grep -RniEi 'controlgas' -- $FILES js/site.js llms.txt || true
           echo '=== SOSTIENE / SOSTENER ==='
-          grep -RniEi 'sostien|sostener|sostiene|sostenerse' -- index.html midesafe-sgm.html gasafe-plus.html autoconsumo.html servicios.html nosotros.html contacto.html preguntas-frecuentes.html js/site.js llms.txt || true
-          echo '=== OTHER ABSTRACT COPY ==='
-          grep -RniEi 'hablan entre|viaja sola|frente común|todo al día|siempre listo|se queda en una carpeta|sostener|responde por tu cumplimiento|detrás del sistema|en orden|sin fricción|centro de operación' -- index.html midesafe-sgm.html gasafe-plus.html autoconsumo.html servicios.html nosotros.html contacto.html preguntas-frecuentes.html js/site.js llms.txt || true
+          grep -RniEi 'sostien|sostener|sostiene|sostenerse' -- $FILES js/site.js llms.txt || true
+          echo '=== H1 / H2 / LEADS ==='
+          for f in $FILES; do
+            echo "--- $f ---"
+            grep -nE '<h1|<h2|class="lead"|class="section-sub"|class="page-lead"' "$f" || true
+          done
+          echo '=== ABSTRACT / CAMPAIGN WORDING ==='
+          grep -RniEi 'hablan entre|viaja sola|frente común|todo al día|siempre listo|se queda en una carpeta|sostener|responde por tu cumplimiento|detrás del sistema|en orden|sin fricción|centro de operación|columna vertebral|respaldado|tranquilidad|certeza|sin sorpresas|en tus manos|toma el control|un solo frente|mantiene al día' -- $FILES js/site.js llms.txt || true
