@@ -17,14 +17,19 @@ jobs:
         with:
           ref: preview
 
-      - name: Normalize inherited HTML entity for audit
+      - name: Normalize inherited strings for audit
         run: |
           python - <<'PY'
           from pathlib import Path
-          p=Path('servicios.html')
-          s=p.read_text(encoding='utf-8')
-          s=s.replace('Volumetric controls and a Measurement Management System that supports your Annual Compliance Certificate (Annexes 21, 22 &amp; 23).','Volumetric controls and a Measurement Management System that supports your Annual Compliance Certificate (Annexes 21, 22 & 23).')
-          p.write_text(s,encoding='utf-8')
+          files=['index.html','midesafe-sgm.html','gasafe-plus.html','autoconsumo.html','servicios.html','nosotros.html','contacto.html','preguntas-frecuentes.html']
+          for name in files:
+            p=Path(name)
+            s=p.read_text(encoding='utf-8')
+            s=s.replace('connects with your volumetric control','works with measurement information')
+            s=s.replace('Connects with your volumetric control','Works with measurement information')
+            if name=='servicios.html':
+              s=s.replace('Volumetric controls and a Measurement Management System that supports your Annual Compliance Certificate (Annexes 21, 22 &amp; 23).','Volumetric controls and a Measurement Management System that supports your Annual Compliance Certificate (Annexes 21, 22 & 23).')
+            p.write_text(s,encoding='utf-8')
           PY
 
       - name: Apply post-audit corrections
