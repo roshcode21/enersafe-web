@@ -4,7 +4,7 @@
 
 /* —— Índice del buscador (editable) —— */
 const SEARCH_INDEX=[
-  {tag:"MIDESAFE SGM · SAT",title:"MIDESAFE SGM",snippet:"Gestión digital del SGM, con actividades, cálculos, evidencia y seguimiento técnico. Compatible con distintos controles volumétricos e integración específica con ControlGAS®.",tags:"sat sgm medicion control volumetrico controlgas anexos 21 22 23 incertidumbre balance metrologia",url:"midesafe-sgm.html"},
+  {tag:"MIDESAFE SGM · SAT",title:"MIDESAFE SGM",snippet:"Gestión del SGM con actividades, cálculos, evidencia y seguimiento técnico especializado.",tags:"sat sgm medicion control volumetrico anexos 21 22 23 incertidumbre balance metrologia",url:"midesafe-sgm.html"},
   {tag:"Autoconsumo · SAT",title:"MIDESAFE Autoconsumo",snippet:"Gestión digital del SGM para instalaciones de autoconsumo, con actividades, medición, cálculos, evidencia y seguimiento técnico.",tags:"autoconsumo sat sgm medicion instalacion",url:"autoconsumo.html"},
   {tag:"GASAFE Plus · ASEA",title:"GASAFE Plus",snippet:"Sistema digital para la implementación continua del SASISOPA y el seguimiento de actividades y evidencias operativas relacionadas con la NOM-005-ASEA-2016.",tags:"asea sasisopa nom-005 nom005 gasafe especialista tercero autorizado seguridad medio ambiente 18 elementos",url:"gasafe-plus.html"},
   {tag:"Cumplimiento · ASEA",title:"Auditorías SASISOPA",snippet:"Auditorías internas y externas del SASISOPA, dictaminación e informes de desempeño.",tags:"asea sasisopa auditoria interna externa dictaminacion informe desempeno semestral conclusion",url:"servicios.html"},

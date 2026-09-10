@@ -6,7 +6,7 @@ ENERSAFE desarrolla MIDESAFE SGM y GASAFE Plus. La tecnología forma parte de un
 
 ## Sistemas principales
 
-- [MIDESAFE SGM](https://enersafe.com.mx/midesafe-sgm.html): gestión digital del Sistema de Gestión de la Medición. Organiza actividades, registros, cálculos y evidencia del SGM. Puede trabajar con distintos sistemas de control volumétrico. En estaciones con ControlGAS® existe una integración específica que permite vincular información y evitar doble captura en procesos integrados; con otros sistemas, el intercambio y validación se realizan manualmente.
+- [MIDESAFE SGM](https://enersafe.com.mx/midesafe-sgm.html): gestión digital del Sistema de Gestión de la Medición. Administra actividades, registros, cálculos y evidencia del SGM con seguimiento técnico especializado. Utiliza la información de medición y control volumétrico requerida para la gestión del sistema.
 - [GASAFE Plus](https://enersafe.com.mx/gasafe-plus.html): sistema digital para la conformación e implementación continua del SASISOPA y para organizar actividades y evidencias operativas relacionadas con la NOM-005-ASEA-2016. La NOM-005 conserva su alcance técnico y evaluación de conformidad independiente.
 - [MIDESAFE Autoconsumo](https://enersafe.com.mx/autoconsumo.html): aplicación de la gestión del SGM a instalaciones de autoconsumo.
 - [Servicios especializados](https://enersafe.com.mx/servicios.html): gestiones, estudios, dictámenes y servicios complementarios ante distintas autoridades.
