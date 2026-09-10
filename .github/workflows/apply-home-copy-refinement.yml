@@ -1,0 +1,145 @@
+name: Apply HOME copy refinement
+
+on:
+  push:
+    branches: [preview]
+    paths:
+      - '.proposal_payload/home-copy-refinement-trigger.txt'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: preview
+      - name: Refine HOME copy from review notes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          replacements = {
+            # Trust strip
+            'Proprietary systems': 'Digital solutions',
+            'Sistemas propios': 'Soluciones digitales',
+            'MIDESAFE SGM and GASAFE Plus developed by ENERSAFE': 'MIDESAFE SGM and GASAFE Plus for regulatory compliance management',
+            'MIDESAFE SGM y GASAFE Plus desarrollados por ENERSAFE': 'MIDESAFE SGM y GASAFE Plus para gestionar obligaciones regulatorias',
+
+            # MIDESAFE hero
+            'Manage your SGM &lt;span class="hl"&gt;with MIDESAFE.&lt;/span&gt;': 'Digital SGM compliance &lt;span class="hl"&gt;with MIDESAFE.&lt;/span&gt;',
+            'Administra tu SGM &lt;span class="hl"&gt;con MIDESAFE.&lt;/span&gt;': 'Cumplimiento digital del SGM &lt;span class="hl"&gt;con MIDESAFE.&lt;/span&gt;',
+            'Administra tu SGM <span class="hl">con MIDESAFE.</span>': 'Cumplimiento digital del SGM <span class="hl">con MIDESAFE.</span>',
+            'MIDESAFE manages SGM activities, equipment, records, calculations and evidence, with specialized technical follow-up.': 'MIDESAFE brings together SGM activities, records, calculations and evidence in one digital platform, with specialized technical follow-up for operation and annual verification.',
+            'MIDESAFE administra actividades, equipos, registros, cálculos y evidencia del SGM, con seguimiento técnico especializado.': 'MIDESAFE concentra actividades, registros, cálculos y evidencia del SGM en una plataforma digital, con seguimiento técnico especializado para su operación y verificación anual.',
+
+            # MIDESAFE card benefits
+            'Volumetric-control information recording and validation': 'Schedules, notifies and tracks SGM activities',
+            'Registro y validación de información del control volumétrico': 'Programa, notifica y da seguimiento a las actividades del SGM',
+            'Calculates product balance and uncertainty automatically': 'Calculates product balance and uncertainty automatically',
+            'Calcula balance de producto e incertidumbre dentro de MIDESAFE': 'Calcula balance de producto e incertidumbre de forma automática',
+            'Backs the SAT Annual Compliance Certificate': 'Builds a digital file exportable to PDF',
+            'Organiza la evidencia del SGM para facilitar su verificación': 'Concentra la evidencia y genera un expediente digital exportable en PDF',
+            'Assigned specialist and monthly reports included': 'Assigned specialist and monthly reports included',
+            'Especialista asignado y reportes periódicos incluidos': 'Especialista asignado y reportes mensuales incluidos',
+
+            # Specialist panel: turn fake dashboard into scope of review
+            'An example of what is reviewed during follow-up:': 'What your assigned specialist reviews:',
+            'Un ejemplo de lo que se revisa durante el seguimiento:': 'Qué revisa tu especialista asignado:',
+            'Illustrative example': 'Technical follow-up',
+            'Ejemplo ilustrativo': 'Seguimiento técnico',
+            'Follow-up review': 'Station review',
+            'Revisión de seguimiento': 'Revisión de la estación',
+            'Active follow-up': 'Assigned specialist',
+            'Seguimiento activo': 'Especialista asignado',
+            'Reviewed': 'Execution and support',
+            'Revisadas': 'Ejecución y soporte',
+            'Recorded evidence': 'Evidence and supporting documents',
+            'Evidencias registradas': 'Evidencias y soportes',
+            'Under review': 'Document review',
+            'En validación': 'Revisión documental',
+            'Document approaching expiration': 'Validities and expirations',
+            'Documento próximo a vencer': 'Vigencias y vencimientos',
+            'Observation identified': 'Observations identified',
+            'Observación detectada': 'Observaciones detectadas',
+            'Pending action': 'Attention and closure',
+            'Por atender': 'Atención y cierre',
+            'This view is illustrative. Actual status depends on the information recorded, station activities and the contracted scope.': 'Follow-up is documented in periodic reports covering progress, pending items, findings and improvement opportunities.',
+            'Esta vista es ilustrativa. El estado real depende de la información registrada, de las actividades de la estación y del alcance contratado.': 'El seguimiento se documenta en reportes periódicos con avance, pendientes, hallazgos y oportunidades de mejora.',
+
+            # Regulatory framework section
+            'Regulatory framework': 'Compliance by authority',
+            'Marco regulatorio': 'Cumplimiento por autoridad',
+            'Obligations and services by authority.': 'Each authority requires different obligations and evidence.',
+            'Obligaciones y servicios por autoridad.': 'Cada autoridad exige obligaciones y evidencias diferentes.',
+            'MIDESAFE and GASAFE cover recurring obligations; specialized services address filings, reports, licenses, studies and registrations required by each station\'s operation.': 'ENERSAFE identifies the scope applicable to each service station and addresses it with the system, filing, assessment, study or service that corresponds.',
+            'MIDESAFE y GASAFE cubren obligaciones recurrentes; los servicios especializados atienden trámites, dictámenes, licencias, estudios y registros que cada estación requiere según su operación.': 'ENERSAFE identifica el alcance aplicable a cada Estación de Servicio y lo atiende con el sistema, trámite, dictamen, estudio o servicio que corresponda.',
+            'SASISOPA, NOM-005 and applicable provisions': 'SASISOPA, NOM-005-ASEA-2016 and related filings',
+            'SASISOPA, NOM-005 y disposiciones aplicables': 'SASISOPA, NOM-005-ASEA-2016 y trámites asociados',
+            'Volumetric control and Annexes 21, 22 &amp; 23': 'SGM, volumetric controls and Annexes 21, 22 &amp; 23',
+            'Control volumétrico y Anexos 21, 22 y 23': 'SGM, controles volumétricos y Anexos 21, 22 y 23',
+            'Applicable labor and safety regulation': 'Applicable occupational safety and labor obligations',
+            'Normativa laboral y de seguridad aplicable': 'Seguridad y obligaciones laborales aplicables',
+            'Environmental records, COA and more': 'Environmental registrations, waste and applicable obligations',
+            'Registros ambientales, COA y más': 'Registros, residuos y obligaciones ambientales aplicables',
+            'And more': 'CNE',
+            'Y más': 'CNE',
+            'Among other federal and municipal authorities': 'Permits and filings applicable to fuel retail activity',
+            'Entre otras autoridades federales y municipales': 'Permisos y trámites aplicables a la actividad de expendio',
+          }
+
+          original = s
+          missing = []
+          for old, new in replacements.items():
+              if old not in s:
+                  missing.append(old)
+              s = s.replace(old, new)
+
+          if missing:
+              print('WARNING: strings not found:')
+              for item in missing:
+                  print('-', item)
+
+          p.write_text(s, encoding='utf-8')
+
+          required = [
+              'Soluciones digitales',
+              'Cumplimiento digital del SGM',
+              'Programa, notifica y da seguimiento a las actividades del SGM',
+              'Qué revisa tu especialista asignado:',
+              'Cada autoridad exige obligaciones y evidencias diferentes.',
+              'Permisos y trámites aplicables a la actividad de expendio',
+          ]
+          for item in required:
+              assert item in s, item
+
+          forbidden = [
+              'Sistemas propios',
+              'Administra tu SGM',
+              'Registro y validación de información del control volumétrico',
+              'Un ejemplo de lo que se revisa durante el seguimiento:',
+              'Ejemplo ilustrativo',
+              'Marco regulatorio',
+              'Obligaciones y servicios por autoridad.',
+          ]
+          for item in forbidden:
+              assert item not in s, item
+          PY
+
+          if git diff --quiet -- index.html; then
+            echo 'No copy changes produced'
+            exit 1
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git commit -m 'Refine HOME copy from review notes'
+          git push origin preview
