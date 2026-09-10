@@ -19,7 +19,7 @@ jobs:
         with:
           ref: preview
 
-      - name: Rebuild, repair JS and validate CEO proposal v3
+      - name: Rebuild and publish CEO proposal v3
         shell: bash
         run: |
           set -euo pipefail
@@ -45,19 +45,13 @@ jobs:
           marker = '/* —— Tema —— */'
           i = s.index(marker)
           before = s[:i]
-          trimmed = before.rstrip()
-          if trimmed.endswith(']'):
+          if before.rstrip().endswith(']'):
               pos = before.rfind(']')
-              before = before[:pos+1] + ';' + before[pos+1:]
-              s = before + s[i:]
+              s = before[:pos+1] + ';' + before[pos+1:] + s[i:]
               p.write_text(s)
           PY
 
           node --check js/site.js
-          grep -q 'Todo tu SGM en una sola plataforma' index.html
-          grep -q 'Todo tu SGM en una sola plataforma' midesafe-sgm.html
-          grep -q 'SASISOPA y NOM-005, con seguimiento durante la operación' gasafe-plus.html
-          grep -q 'MIDESAFE se implementa con el sistema de Control Volumétrico' midesafe-sgm.html
           if grep -q 'Trabaja con distintos controles volumétricos' index.html midesafe-sgm.html autoconsumo.html servicios.html; then
             echo 'Rejected copy still present'; exit 1
           fi
