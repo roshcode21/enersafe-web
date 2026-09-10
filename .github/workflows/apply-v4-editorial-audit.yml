@@ -1,0 +1,53 @@
+name: Apply ENERSAFE v4 editorial audit
+
+on:
+  push:
+    branches: [preview]
+    paths:
+      - '.proposal_payload/v4-audit-trigger.txt'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: preview
+
+      - name: Apply audited content changes
+        run: |
+          set -euo pipefail
+          python .proposal_payload/v4_apply.py
+
+      - name: Validate JavaScript
+        run: node --check js/site.js
+
+      - name: Validate structured data and HTML language pairs
+        run: |
+          python - <<'PY'
+          import json, re
+          from pathlib import Path
+          files = ['index.html','midesafe-sgm.html','gasafe-plus.html','autoconsumo.html','servicios.html','nosotros.html','contacto.html','preguntas-frecuentes.html']
+          for name in files:
+              s = Path(name).read_text(encoding='utf-8')
+              for i, block in enumerate(re.findall(r'<script[^>]+type="application/ld\+json"[^>]*>(.*?)</script>', s, re.S), 1):
+                  json.loads(block)
+              es = len(re.findall(r'\bdata-es=', s))
+              en = len(re.findall(r'\bdata-en=', s))
+              if es != en:
+                  raise SystemExit(f'{name}: data-es/data-en mismatch {es}/{en}')
+          print('Structured data and bilingual attributes OK')
+          PY
+
+      - name: Commit audited preview
+        run: |
+          set -euo pipefail
+          rm -f .proposal_payload/v4_apply.py .proposal_payload/v4-audit-trigger.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "V4 audit: correct product flows and regulatory architecture"
+          git push origin HEAD:preview
