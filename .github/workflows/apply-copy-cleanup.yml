@@ -1,0 +1,205 @@
+name: Apply ENERSAFE copy cleanup
+
+on:
+  push:
+    branches: [preview]
+    paths:
+      - '.proposal_payload/copy-cleanup-trigger.txt'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: preview
+      - name: Apply direct technical-commercial copy
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          files = [
+              'index.html','midesafe-sgm.html','gasafe-plus.html','autoconsumo.html',
+              'servicios.html','nosotros.html','contacto.html','preguntas-frecuentes.html',
+              'js/site.js','llms.txt'
+          ]
+
+          repl = {
+          # HOME — HERO / CONTROL VOLUMETRICO
+          'Todo tu SGM en <span class="hl">una sola plataforma.</span>': 'Gestión y seguimiento del SGM <span class="hl">con MIDESAFE.</span>',
+          'Todo tu SGM en &lt;span class="hl"&gt;una sola plataforma.&lt;/span&gt;': 'Gestión y seguimiento del SGM &lt;span class="hl"&gt;con MIDESAFE.&lt;/span&gt;',
+          'Your entire SGM in &lt;span class="hl"&gt;one platform.&lt;/span&gt;': 'SGM management and follow-up &lt;span class="hl"&gt;with MIDESAFE.&lt;/span&gt;',
+          'MIDESAFE concentra actividades, equipos, registros, cálculos y evidencia del SGM. Funciona con el control volumétrico que ya utiliza la estación; con ControlGAS® existe integración para evitar la doble captura en los procesos conectados.': 'MIDESAFE administra actividades, equipos, registros, cálculos y evidencia del SGM, con seguimiento técnico especializado.',
+          'MIDESAFE brings together SGM activities, equipment, records, calculations and evidence. It works with the volumetric-control system already used by the station; with ControlGAS®, integration can avoid duplicate entry in connected processes.': 'MIDESAFE manages SGM activities, equipment, records, calculations and evidence, with specialized technical follow-up.',
+          'Integración disponible con ControlGAS® para procesos específicos': 'Registro y validación de información del control volumétrico',
+          'ControlGAS® integration available for specific processes': 'Volumetric-control information recording and validation',
+          'MIDESAFE se implementa con el sistema de Control Volumétrico que utiliza la estación. Cuando se utiliza ControlGAS®, existe una integración que permite vincular información y evitar la doble captura en procesos integrados. Con otros sistemas, la información requerida se captura y valida en MIDESAFE.': 'MIDESAFE utiliza la información de medición y control volumétrico requerida para administrar el SGM. Los datos necesarios se registran y validan en MIDESAFE conforme al proceso definido para la estación.',
+          'MIDESAFE is implemented with the volumetric-control system used by the station. When ControlGAS® is used, an integration can link information and avoid duplicate entry in integrated processes. With other systems, required information is entered and validated in MIDESAFE.': 'MIDESAFE uses the measurement and volumetric-control information required to manage the SGM. The necessary data is recorded and validated in MIDESAFE according to the process defined for the station.',
+
+          # HOME — HIERARCHY / TONE
+          'SASISOPA y NOM-005 <span class="hl">en operación.</span>': 'SASISOPA y NOM-005 <span class="hl">con seguimiento técnico.</span>',
+          'SASISOPA y NOM-005 &lt;span class="hl"&gt;en operación.&lt;/span&gt;': 'SASISOPA y NOM-005 &lt;span class="hl"&gt;con seguimiento técnico.&lt;/span&gt;',
+          'SASISOPA and NOM-005 &lt;span class="hl"&gt;in operation.&lt;/span&gt;': 'SASISOPA and NOM-005 &lt;span class="hl"&gt;with technical follow-up.&lt;/span&gt;',
+          'Cumplimiento regulatorio <span class="hl">coordinado por ENERSAFE.</span>': 'Cumplimiento regulatorio <span class="hl">para Estaciones de Servicio.</span>',
+          'Cumplimiento regulatorio &lt;span class="hl"&gt;coordinado por ENERSAFE.&lt;/span&gt;': 'Cumplimiento regulatorio &lt;span class="hl"&gt;para Estaciones de Servicio.&lt;/span&gt;',
+          'Regulatory compliance &lt;span class="hl"&gt;coordinated by ENERSAFE.&lt;/span&gt;': 'Regulatory compliance &lt;span class="hl"&gt;for service stations.&lt;/span&gt;',
+          'MIDESAFE y GASAFE cubren los dos frentes digitales principales. Los servicios especializados de ENERSAFE complementan las demás obligaciones ante autoridades federales, estatales y municipales.': 'MIDESAFE y GASAFE Plus atienden SGM, SASISOPA y NOM-005. Los servicios especializados de ENERSAFE cubren trámites, dictámenes, licencias, estudios y registros adicionales.',
+          'MIDESAFE and GASAFE cover the two main digital compliance fronts. ENERSAFE specialized services complement other obligations before federal, state and municipal authorities.': 'MIDESAFE and GASAFE Plus address SGM, SASISOPA and NOM-005. ENERSAFE specialized services cover additional filings, assessments, licenses, studies and registrations.',
+          'ENERSAFE coordina sistemas, servicios y especialistas para que cada obligación tenga seguimiento y respaldo documental durante la operación.': 'ENERSAFE integra sistemas digitales, seguimiento técnico y servicios especializados para atender las obligaciones aplicables a cada estación.',
+          'ENERSAFE coordinates systems, services and specialists so each obligation has follow-up and documentary support throughout operation.': 'ENERSAFE combines digital systems, technical follow-up and specialized services to address the obligations applicable to each station.',
+          'Dos sistemas propios para las obligaciones que requieren seguimiento permanente.': 'MIDESAFE y GASAFE Plus para gestionar SGM, SASISOPA y NOM-005.',
+          'Two proprietary systems for obligations that require ongoing follow-up.': 'MIDESAFE and GASAFE Plus for SGM, SASISOPA and NOM-005 management.',
+          'MIDESAFE SGM y GASAFE Plus convierten requisitos regulatorios en actividades, responsables, evidencias y reportes. Los servicios especializados de ENERSAFE completan los demás frentes de cumplimiento.': 'MIDESAFE SGM y GASAFE Plus organizan actividades, responsables, evidencias y reportes. Los servicios especializados de ENERSAFE atienden las demás obligaciones regulatorias.',
+          'MIDESAFE SGM and GASAFE Plus turn regulatory requirements into activities, responsible parties, evidence and reports. ENERSAFE specialized services cover the remaining compliance needs.': 'MIDESAFE SGM and GASAFE Plus organize activities, responsible parties, evidence and reports. ENERSAFE specialized services address the remaining regulatory obligations.',
+          'El sistema organiza. Tu especialista ENERSAFE da seguimiento.': 'Cada estación cuenta con un especialista ENERSAFE asignado.',
+          'The system organizes. Your ENERSAFE specialist follows up.': 'Each station has an assigned ENERSAFE specialist.',
+          'Así empieza y se sostiene el servicio.': 'Así trabajamos contigo.',
+          'How the service starts and is sustained.': 'How we work with you.',
+          'Una misma estación, varias autoridades. Un solo equipo de seguimiento.': 'Atendemos obligaciones ante las principales autoridades del sector.',
+          'One station, several authorities. One follow-up team.': 'We address obligations before the sector’s main authorities.',
+          'Qué atendemos en cada frente regulatorio.': 'Obligaciones y servicios por autoridad.',
+          'What we cover in each regulatory area.': 'Obligations and services by authority.',
+          'Revisemos el cumplimiento de tu Estación de Servicio.': 'Revisemos las obligaciones de tu Estación de Servicio.',
+          "Let's review your service station's compliance.": "Let's review your service station's obligations.",
+
+          # MIDESAFE — META / HERO / CONTENT
+          'MIDESAFE administra actividades, registros, cálculos y evidencia del Sistema de Gestión de la Medición, con seguimiento técnico ENERSAFE e integración específica con ControlGAS®.': 'MIDESAFE administra actividades, registros, cálculos y evidencia del Sistema de Gestión de la Medición, con seguimiento técnico especializado.',
+          'Sistema digital que organiza actividades, registros, cálculos y evidencia del SGM. Se implementa con el sistema de Control Volumétrico que utiliza la estación y cuenta con integración directa con ControlGAS®.': 'Sistema digital para administrar actividades, registros, cálculos y evidencia del SGM, con seguimiento técnico especializado.',
+          'Todo tu SGM en una sola plataforma.': 'Gestión y seguimiento del SGM con MIDESAFE.',
+          'Your entire SGM in one platform.': 'SGM management and follow-up with MIDESAFE.',
+          'MIDESAFE administra actividades, equipos, registros, cálculos y evidencia del Sistema de Gestión de la Medición, con seguimiento técnico especializado. Funciona con el control volumétrico que ya utiliza la estación; con ControlGAS® existe una integración específica entre ambos sistemas.': 'MIDESAFE administra actividades, equipos, registros, cálculos y evidencia del Sistema de Gestión de la Medición, con seguimiento técnico especializado.',
+          'MIDESAFE manages SGM activities, equipment, records, calculations and evidence with specialized technical follow-up. It works with the volumetric-control system already used by the station; with ControlGAS®, a specific integration is available between both systems.': 'MIDESAFE manages SGM activities, equipment, records, calculations and evidence with specialized technical follow-up.',
+          'El SGM exige control continuo de actividades, mediciones y evidencia.': 'El SGM requiere control de actividades, mediciones y evidencia.',
+          'The SGM requires continuous control of activities, measurements and evidence.': 'The SGM requires control of activities, measurements and evidence.',
+          'Cómo trabaja MIDESAFE con la información de tu estación.': 'Cómo se administra el SGM en MIDESAFE.',
+          'How MIDESAFE works with your station’s information.': 'How the SGM is managed in MIDESAFE.',
+          'Con ControlGAS® puede integrar información de procesos definidos. Con otros sistemas, los datos necesarios se registran y validan en MIDESAFE.': 'Los datos requeridos del control volumétrico se registran y validan en MIDESAFE como parte de la gestión del SGM.',
+          'It links directly with your volumetric control and receives the information, with no one entering data twice.': 'The volumetric-control data required for the SGM is recorded and validated in MIDESAFE.',
+          'MIDESAFE se implementa con el sistema de Control Volumétrico que ya utiliza tu estación.': 'Información del control volumétrico para la gestión del SGM.',
+          'MIDESAFE is implemented with the volumetric-control system already used by your station.': 'Volumetric-control information used in SGM management.',
+          'La operación de MIDESAFE no requiere cambiar el sistema de Control Volumétrico de la estación. Cuando la estación utiliza ControlGAS®, existe una integración que vincula información entre ambos sistemas y evita la doble captura en procesos integrados. Con otros sistemas, la información requerida se captura y valida en MIDESAFE.': 'MIDESAFE utiliza la información de medición y control volumétrico necesaria para administrar registros, cálculos y evidencia del SGM. Los datos requeridos se registran y validan conforme al proceso definido para la estación.',
+          'MIDESAFE does not require the station to change its volumetric-control system. When the station uses ControlGAS®, an integration links information between both systems and avoids duplicate entry in integrated processes. With other systems, required information is entered and validated in MIDESAFE.': 'MIDESAFE uses the measurement and volumetric-control information needed to manage SGM records, calculations and evidence. Required data is recorded and validated according to the process defined for the station.',
+          '<div class="sp-row"><span class="sp-check ok"><svg fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span class="lbl"><b>ControlGAS®</b><br/><small>Información vinculada en procesos integrados</small></span><span class="val val-ok">Integración directa</span></div>': '<div class="sp-row"><span class="sp-check ok"><svg fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span class="lbl"><b>Control volumétrico</b><br/><small>Información requerida para el SGM</small></span><span class="val val-ok">Registrada</span></div>',
+          'Con ControlGAS®, la integración evita la doble captura en procesos definidos. Con otros sistemas, la información requerida se captura y valida en MIDESAFE.': 'La información requerida se registra y valida en MIDESAFE conforme al proceso definido para la estación.',
+          'With ControlGAS®, integration avoids duplicate entry in defined processes. With other systems, required information is entered and validated in MIDESAFE.': 'Required information is recorded and validated in MIDESAFE according to the process defined for the station.',
+          'Operación con el Control Volumétrico de la estación e integración directa con ControlGAS®': 'Registro y validación de la información del control volumétrico requerida para el SGM',
+          "Works with the station's volumetric control and offers direct ControlGAS® integration": 'Recording and validation of volumetric-control information required for the SGM',
+          'MIDESAFE puede operar con la información del control volumétrico que ya utiliza la estación. Con ControlGAS® existe una integración específica que permite vincular información y evitar la doble captura en los procesos integrados. Con otros controles volumétricos, la información requerida se registra y valida en MIDESAFE.': 'MIDESAFE administra el SGM utilizando la información de medición y control volumétrico que corresponde a la estación. Los datos requeridos se registran y validan en MIDESAFE para mantener los registros, cálculos y evidencia del sistema.',
+          'MIDESAFE SGM incluye sistema, seguimiento técnico y soporte de operación.': 'Qué incluye MIDESAFE SGM.',
+          'MIDESAFE SGM includes the system, technical follow-up and operational support.': 'What MIDESAFE SGM includes.',
+          'La experiencia de quienes ya operan con MIDESAFE.': 'Experiencia de nuestros clientes con MIDESAFE.',
+          'The experience of teams already operating with MIDESAFE.': 'Our clients’ experience with MIDESAFE.',
+          'Conoce MIDESAFE SGM en una demostración.': 'Solicita una demostración de MIDESAFE SGM.',
+          'See MIDESAFE SGM in a demo.': 'Request a MIDESAFE SGM demo.',
+
+          # AUTOCONSUMO — SAME PRODUCT LOGIC
+          'Las instalaciones de autoconsumo también tienen obligaciones de medición y control.': 'Obligaciones de medición y control en instalaciones de autoconsumo.',
+          'Self-consumption also answers to the SAT.': 'Measurement and control obligations for self-consumption facilities.',
+          'MIDESAFE se implementa con el sistema de Control Volumétrico que ya utiliza tu instalación.': 'Información del control volumétrico para la gestión del SGM.',
+          'MIDESAFE is implemented with the volumetric-control system already used by your facility.': 'Volumetric-control information used in SGM management.',
+          'La operación de MIDESAFE no requiere cambiar el sistema de Control Volumétrico de la instalación. Con ControlGAS® existe una integración que evita la doble captura en procesos integrados. Con otros sistemas, la información requerida se captura y valida en MIDESAFE.': 'MIDESAFE utiliza la información de medición y control volumétrico necesaria para administrar registros, cálculos y evidencia del SGM. Los datos requeridos se registran y validan conforme al proceso definido para la instalación.',
+          'MIDESAFE does not require changing the facility\'s volumetric-control system. With ControlGAS®, an integration avoids duplicate entry in integrated processes. With other systems, required information is entered and validated in MIDESAFE.': 'MIDESAFE uses the measurement and volumetric-control information needed to manage SGM records, calculations and evidence. Required data is recorded and validated according to the process defined for the facility.',
+          'La integración con ControlGAS® aplica a procesos definidos; con otros sistemas el registro se realiza según la configuración disponible.': 'La información requerida se registra y valida en MIDESAFE conforme al proceso definido para la instalación.',
+          'Information flows in a single direction, with no intermediate entry.': 'Required information is recorded and validated in MIDESAFE according to the process defined for the facility.',
+          'Operación con el Control Volumétrico de la instalación e integración directa con ControlGAS®': 'Registro y validación de la información del control volumétrico requerida para el SGM',
+          "Works with the facility's volumetric control and offers direct ControlGAS® integration": 'Recording and validation of volumetric-control information required for the SGM',
+          'MIDESAFE Autoconsumo incluye sistema, seguimiento técnico y soporte de operación.': 'Qué incluye MIDESAFE Autoconsumo.',
+          'MIDESAFE Self-consumption includes the system, technical follow-up and operational support.': 'What MIDESAFE Self-consumption includes.',
+          'Conoce MIDESAFE Autoconsumo en una demostración.': 'Solicita una demostración de MIDESAFE Autoconsumo.',
+          'Request a MIDESAFE Autoconsumo demo.': 'Request a MIDESAFE Autoconsumo demo.',
+
+          # GASAFE — PLAIN, DISTINCT SASISOPA / NOM-005
+          'SASISOPA y NOM-005, con <span class="hl">seguimiento durante la operación.</span>': 'SASISOPA y NOM-005 con <span class="hl">seguimiento técnico durante la operación.</span>',
+          'SASISOPA y NOM-005, con &lt;span class=\'hl\'&gt;seguimiento durante la operación.&lt;/span&gt;': 'SASISOPA y NOM-005 con &lt;span class=\'hl\'&gt;seguimiento técnico durante la operación.&lt;/span&gt;',
+          'SASISOPA and NOM-005, with &lt;span class=\'hl\'&gt;follow-up throughout operation.&lt;/span&gt;': 'SASISOPA and NOM-005 with &lt;span class=\'hl\'&gt;technical follow-up throughout operation.&lt;/span&gt;',
+          'Registrar o autorizar el SASISOPA es sólo una etapa.': 'La autorización del SASISOPA no concluye su implementación.',
+          'Registering or authorizing SASISOPA is only one stage.': 'SASISOPA authorization does not conclude its implementation.',
+          'Conformación, dictaminación, registro, autorización e implementación cumplen funciones diferentes dentro del proceso.': 'Conformación, dictaminación, registro, autorización e implementación.',
+          'Preparation, assessment, registration, authorization and implementation serve different functions within the process.': 'Preparation, assessment, registration, authorization and implementation.',
+          'GASAFE organiza el seguimiento operativo sin confundir el alcance de cada obligación.': 'Seguimiento operativo con GASAFE Plus.',
+          'GASAFE organizes operational follow-up without confusing the scope of each obligation.': 'Operational follow-up with GASAFE Plus.',
+          'SASISOPA y NOM-005 se relacionan en la operación, pero no son la misma obligación.': 'SASISOPA y NOM-005 tienen alcances diferentes.',
+          'SASISOPA and NOM-005 relate in operation, but they are not the same obligation.': 'SASISOPA and NOM-005 have different scopes.',
+          'GASAFE Plus incluye sistema, acompañamiento técnico y soporte de implementación.': 'Qué incluye GASAFE Plus.',
+          'GASAFE Plus includes the system, technical support and implementation assistance.': 'What GASAFE Plus includes.',
+          'La experiencia de quienes ya operan su SASISOPA con GASAFE.': 'Experiencia de nuestros clientes con GASAFE Plus.',
+          'The experience of teams already operating SASISOPA with GASAFE.': 'Our clients’ experience with GASAFE Plus.',
+          'Conoce GASAFE Plus en una demostración.': 'Solicita una demostración de GASAFE Plus.',
+          'See GASAFE Plus in a demo.': 'Request a GASAFE Plus demo.',
+
+          # SERVICES
+          'Cumplimiento regulatorio para tu Estación de Servicio, <span class="hl">con un solo equipo.</span>': 'Servicios regulatorios <span class="hl">para Estaciones de Servicio.</span>',
+          'Cumplimiento regulatorio para tu Estación de Servicio, &lt;span class=\'hl\'&gt;con un solo equipo.&lt;/span&gt;': 'Servicios regulatorios &lt;span class=\'hl\'&gt;para Estaciones de Servicio.&lt;/span&gt;',
+          'Regulatory compliance for your service station, &lt;span class=\'hl\'&gt;with one team.&lt;/span&gt;': 'Regulatory services &lt;span class=\'hl\'&gt;for service stations.&lt;/span&gt;',
+          'Una Estación de Servicio responde ante varias autoridades.': 'Obligaciones ante diferentes autoridades.',
+          'A service station answers to several authorities.': 'Obligations before different authorities.',
+          'SAT, ASEA, CNE, STPS, Protección Civil y autoridades ambientales tienen alcances, trámites y evidencias diferentes. ENERSAFE organiza estos frentes por obligación y servicio, sin confundir las funciones de cada autoridad.': 'SAT, ASEA, CNE, STPS, Protección Civil y autoridades ambientales tienen alcances, trámites y evidencias diferentes. ENERSAFE atiende los servicios aplicables de acuerdo con la obligación y la autoridad correspondiente.',
+          'Encuentra el servicio por autoridad y obligación.': 'Servicios por autoridad y obligación.',
+          'Find the service by authority and obligation.': 'Services by authority and obligation.',
+          'Despliega cada sección para ver los servicios puntuales disponibles.': 'Consulta los servicios disponibles en cada categoría.',
+          'Expand each section to see the specific services available.': 'Review the services available in each category.',
+          'MIDESAFE y GASAFE: los dos sistemas propios de ENERSAFE.': 'MIDESAFE y GASAFE Plus son los sistemas propios de ENERSAFE.',
+          "MIDESAFE and GASAFE: ENERSAFE's two proprietary systems.": 'MIDESAFE and GASAFE Plus are ENERSAFE proprietary systems.',
+          'Gestión del SGM con seguimiento técnico e integración directa disponible para estaciones que utilizan ControlGAS®.': 'Gestión del SGM con seguimiento técnico, control de actividades, registros, cálculos y evidencia.',
+          'SGM management with technical follow-up and direct integration available for stations using ControlGAS®.': 'SGM management with technical follow-up, activity control, records, calculations and evidence.',
+          'Revisamos contigo el alcance de tu estación.': 'Revisamos las obligaciones aplicables a tu estación.',
+          'We review your station\'s scope with you.': 'We review the obligations applicable to your station.',
+
+          # ABOUT
+          'Tecnología propia, criterio técnico y acompañamiento en una misma operación.': 'Sistemas digitales propios, especialistas técnicos y servicios regulatorios.',
+          'Proprietary technology, technical judgment and support in one operation.': 'Proprietary digital systems, technical specialists and regulatory services.',
+          'El equipo de ENERSAFE se formó en algunos de los mercados de hidrocarburos más exigentes del mundo, en regulación, finanzas, normatividad y sistemas de administración. Esa experiencia respalda cada solución que entregamos a una Estación de Servicio.': 'Nuestro trabajo combina experiencia en regulación, sistemas de administración, metrología, seguridad, medio ambiente y desarrollo tecnológico aplicado al sector de hidrocarburos.',
+          'The ENERSAFE team trained in some of the world\'s most demanding hydrocarbon markets, across regulation, finance, standards and administration systems. That experience backs every solution we deliver to a service station.': 'Our work combines experience in regulation, administration systems, metrology, safety, environmental management and technology applied to the hydrocarbons sector.',
+          'Qué significa trabajar con ENERSAFE.': 'Cómo trabaja ENERSAFE.',
+          'What it means to work with ENERSAFE.': 'How ENERSAFE works.',
+          'Cuatro especialidades que se combinan en cada estación.': 'Especialidades del equipo ENERSAFE.',
+          'Four specialties that come together in every station.': 'ENERSAFE team specialties.',
+          'Desarrollo de las herramientas digitales que sostienen el cumplimiento de cada estación.': 'Desarrollo y mantenimiento de las herramientas digitales utilizadas en la gestión de cada estación.',
+          'Development of the digital tools that sustain each station\'s compliance.': 'Development and maintenance of the digital tools used in each station’s management.',
+          'Un especialista que conoce el avance de tu estación.': 'Seguimiento técnico durante la operación.',
+          'A specialist who knows your station\'s progress.': 'Technical follow-up during operation.',
+
+          # FAQ — CONTROL VOLUMETRICO WITHOUT BRAND
+          'MIDESAFE puede operar con la información del control volumétrico que ya utiliza la estación. Cuando la estación utiliza ControlGAS®, existe una integración que permite vincular información entre ambos sistemas y evitar la doble captura en procesos integrados, como descargas de producto, balances y cambios de precio. Con otros controles volumétricos, MIDESAFE mantiene la gestión del SGM y la información requerida se captura y valida en la plataforma.': 'MIDESAFE administra el SGM utilizando la información de medición y control volumétrico que corresponde a la estación. Los datos requeridos se registran y validan en MIDESAFE para mantener los registros, cálculos y evidencia del sistema.',
+          'MIDESAFE is implemented with the volumetric-control system used by the station. When ControlGAS® is used, an integration can link information between both systems and avoid duplicate entry in integrated processes such as product unloads, balances and price changes. With other systems, MIDESAFE continues to manage the SGM and required information is entered and validated manually.': 'MIDESAFE manages the SGM using the measurement and volumetric-control information applicable to the station. Required data is recorded and validated in MIDESAFE to maintain the system’s records, calculations and evidence.',
+          'MIDESAFE puede operar con la información del control volumétrico que ya utiliza la estación. Cuando la estación utiliza ControlGAS®, existe una integración que permite vincular información entre ambos sistemas y evitar la doble captura en procesos integrados, como descargas de producto, balances y cambios de precio. Con otros controles volumétricos, MIDESAFE mantiene la gestión del SGM y la información requerida se captura y valida en la plataforma.': 'MIDESAFE administra el SGM utilizando la información de medición y control volumétrico que corresponde a la estación. Los datos requeridos se registran y validan en MIDESAFE para mantener los registros, cálculos y evidencia del sistema.',
+
+          # JS SEARCH
+          'Gestión digital del SGM, con actividades, cálculos, evidencia y seguimiento técnico. Compatible con distintos controles volumétricos e integración específica con ControlGAS®.': 'Gestión del SGM con actividades, cálculos, evidencia y seguimiento técnico especializado.',
+          'sat sgm medicion control volumetrico controlgas anexos 21 22 23 incertidumbre balance metrologia': 'sat sgm medicion control volumetrico anexos 21 22 23 incertidumbre balance metrologia',
+
+          # LLMS
+          '- [MIDESAFE SGM](https://enersafe.com.mx/midesafe-sgm.html): gestión digital del Sistema de Gestión de la Medición. Organiza actividades, registros, cálculos y evidencia del SGM. Puede trabajar con distintos sistemas de control volumétrico. En estaciones con ControlGAS® existe una integración específica que permite vincular información y evitar doble captura en procesos integrados; con otros sistemas, el intercambio y validación se realizan manualmente.': '- [MIDESAFE SGM](https://enersafe.com.mx/midesafe-sgm.html): gestión digital del Sistema de Gestión de la Medición. Administra actividades, registros, cálculos y evidencia del SGM con seguimiento técnico especializado. Utiliza la información de medición y control volumétrico requerida para la gestión del sistema.',
+          }
+
+          changed = []
+          for fn in files:
+              p = Path(fn)
+              s = p.read_text(encoding='utf-8')
+              original = s
+              for old, new in repl.items():
+                  s = s.replace(old, new)
+              if s != original:
+                  p.write_text(s, encoding='utf-8')
+                  changed.append(fn)
+
+          print('Changed:', ', '.join(changed))
+          PY
+
+          node --check js/site.js
+
+          FILES='index.html midesafe-sgm.html gasafe-plus.html autoconsumo.html servicios.html nosotros.html contacto.html preguntas-frecuentes.html js/site.js llms.txt'
+          if grep -RniEi 'controlgas' -- $FILES; then echo 'ERROR: ControlGAS remains'; exit 1; fi
+          if grep -RniEi 'sostien|sostener' -- $FILES; then echo 'ERROR: sostiene language remains'; exit 1; fi
+          if grep -RniEi 'distint(os|as) controles volumétricos|El SGM que el SAT exige|Tus sistemas hablan|viaja sola|responde por tu cumplimiento|Todo al día' -- $FILES; then echo 'ERROR: rejected copy remains'; exit 1; fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html midesafe-sgm.html gasafe-plus.html autoconsumo.html servicios.html nosotros.html contacto.html preguntas-frecuentes.html js/site.js llms.txt
+          git commit -m "Refine ENERSAFE CEO copy and remove ControlGAS references"
+          git push origin preview
