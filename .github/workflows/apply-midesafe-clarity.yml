@@ -1,0 +1,76 @@
+name: Apply MIDESAFE clarity cleanup
+
+on:
+  push:
+    branches: [preview]
+    paths:
+      - '.proposal_payload/midesafe-clarity-trigger.txt'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: preview
+      - name: Remove implied integrations and simplify MIDESAFE copy
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          files=['index.html','midesafe-sgm.html','autoconsumo.html']
+          repl={
+            'Gestión y seguimiento del SGM <span class="hl">con MIDESAFE.</span>':'Administra tu SGM <span class="hl">con MIDESAFE.</span>',
+            'Gestión y seguimiento del SGM &lt;span class="hl"&gt;con MIDESAFE.&lt;/span&gt;':'Administra tu SGM &lt;span class="hl"&gt;con MIDESAFE.&lt;/span&gt;',
+            'SGM management and follow-up &lt;span class="hl"&gt;with MIDESAFE.&lt;/span&gt;':'Manage your SGM &lt;span class="hl"&gt;with MIDESAFE.&lt;/span&gt;',
+            'Gestión y seguimiento del SGM con MIDESAFE.':'Administra tu SGM con MIDESAFE.',
+            'SGM management and follow-up with MIDESAFE.':'Manage your SGM with MIDESAFE.',
+            'Vinculado a tu control volumétrico. Con especialista asignado. Para obtener el Certificado Anual de Cumplimiento.':'Con actividades, cálculos, evidencia y seguimiento técnico especializado para preparar la información requerida en la verificación anual.',
+            'Con vinculación a control volumétrico y especialista asignado.':'Con actividades, cálculos, evidencia y seguimiento técnico especializado.',
+            'Duplicar registros entre sistemas cuando no existe integración':'Capturar la misma información en más de un sistema',
+            'Entering twice what your volumetric control already recorded':'Entering the same information in more than one system',
+            'Sacar a mano los cálculos de balance e incertidumbre':'Realizar manualmente los cálculos de balance e incertidumbre',
+            'Doing balance and uncertainty calculations by hand':'Performing balance and uncertainty calculations manually',
+            'Buscar papeles que se traspapelan antes de la verificación':'Localizar documentos y evidencias dispersas antes de la verificación',
+            'Hunting for papers that get misplaced before inspection':'Locating documents and evidence scattered before verification',
+            'Llegar a la revisión anual sin saber si está todo completo':'Llegar a la revisión anual con información pendiente de revisar',
+            'Reaching the annual review unsure if everything is complete':'Reaching the annual review with information still pending review',
+            'MIDESAFE recibe o registra la información':'La información se registra en MIDESAFE',
+            'MIDESAFE receives or records the information':'Information is recorded in MIDESAFE',
+            'MIDESAFE recibe los datos':'La información se registra en MIDESAFE',
+            'MIDESAFE receives the data':'Information is recorded in MIDESAFE',
+            'MIDESAFE concentra la información':'La información se registra en MIDESAFE',
+            'Conexión directa':'Información del SGM',
+            'Direct connection':'SGM information',
+            'Sin cambiar tu Control Volumétrico':'Información del control volumétrico',
+            'No need to change your volumetric-control system':'Volumetric-control information',
+            'MIDESAFE se incorpora a la operación del SGM con el sistema de Control Volumétrico que la estación ya utiliza.':'Los datos requeridos del control volumétrico se registran en MIDESAFE para utilizarlos en la gestión del SGM.',
+            'MIDESAFE supports SGM operation with the volumetric-control system already used by the station.':'The required volumetric-control data is recorded in MIDESAFE for use in SGM management.',
+            'MIDESAFE se incorpora a la operación del SGM con el sistema que la instalación ya utiliza.':'Los datos requeridos del control volumétrico se registran en MIDESAFE para utilizarlos en la gestión del SGM.',
+            'MIDESAFE supports SGM operation with the system already used by the facility.':'The required volumetric-control data is recorded in MIDESAFE for use in SGM management.',
+            'Así entra la información a MIDESAFE:':'Vista ilustrativa de la información gestionada en MIDESAFE:',
+            'How information enters MIDESAFE:':'Illustrative view of information managed in MIDESAFE:',
+            '<span class="lbl"><b>Control volumétrico</b><br/><small>Información requerida para el SGM</small></span><span class="val val-ok">Registrada</span>':'<span class="lbl"><b>Información de medición</b><br/><small>Registros utilizados en el SGM</small></span><span class="val val-ok">Registrada</span>',
+            '<span class="lbl"><b>Otros sistemas de Control Volumétrico</b><br/><small>La información requerida se registra en MIDESAFE</small></span><span class="val val-warn">Captura y validación</span>':'<span class="lbl"><b>Balance e incertidumbre</b><br/><small>Cálculos administrados en MIDESAFE</small></span><span class="val val-warn">Calculados</span>',
+          }
+          for fn in files:
+            p=Path(fn); s=p.read_text(encoding='utf-8')
+            for old,new in repl.items(): s=s.replace(old,new)
+            p.write_text(s,encoding='utf-8')
+          PY
+
+          node --check js/site.js
+          if grep -RniEi 'controlgas' -- index.html midesafe-sgm.html autoconsumo.html servicios.html preguntas-frecuentes.html js/site.js llms.txt; then exit 1; fi
+          if grep -niEi 'conexión directa|direct connection|vinculad[oa]|otros sistemas de control volumétrico|no existe integración' midesafe-sgm.html autoconsumo.html; then echo 'Implied generic integration still present'; exit 1; fi
+          if grep -RniEi 'sostien|sostener' -- index.html midesafe-sgm.html gasafe-plus.html autoconsumo.html servicios.html nosotros.html contacto.html preguntas-frecuentes.html js/site.js llms.txt; then exit 1; fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html midesafe-sgm.html autoconsumo.html
+          git commit -m "Clarify MIDESAFE copy without generic integration claims"
+          git push origin preview
