@@ -17,6 +17,31 @@ jobs:
         with:
           ref: preview
 
+      - name: Remove legacy positioning before audit
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          files = ['index.html','midesafe-sgm.html','gasafe-plus.html','autoconsumo.html','servicios.html','nosotros.html','contacto.html','preguntas-frecuentes.html']
+          replacements = [
+            ('Los dos sistemas propios de ENERSAFE', 'MIDESAFE SGM y GASAFE Plus'),
+            ('los dos sistemas propios de ENERSAFE', 'MIDESAFE SGM y GASAFE Plus'),
+            ('Dos sistemas propios', 'Dos soluciones digitales'),
+            ('dos sistemas propios', 'dos soluciones digitales'),
+            ('Sistemas propios', 'Soluciones digitales'),
+            ('sistemas propios', 'soluciones digitales'),
+            ('Proprietary digital systems', 'Digital solutions'),
+            ('proprietary digital systems', 'digital solutions'),
+            ('Proprietary systems', 'Digital solutions'),
+            ('proprietary systems', 'digital solutions'),
+          ]
+          for name in files:
+            p = Path(name)
+            s = p.read_text(encoding='utf-8')
+            for old, new in replacements:
+              s = s.replace(old, new)
+            p.write_text(s, encoding='utf-8')
+          PY
+
       - name: Apply audited content changes
         run: |
           set -euo pipefail
@@ -25,7 +50,7 @@ jobs:
       - name: Validate JavaScript
         run: node --check js/site.js
 
-      - name: Validate structured data and HTML language pairs
+      - name: Validate structured data and bilingual attributes
         run: |
           python - <<'PY'
           import json, re
@@ -33,7 +58,7 @@ jobs:
           files = ['index.html','midesafe-sgm.html','gasafe-plus.html','autoconsumo.html','servicios.html','nosotros.html','contacto.html','preguntas-frecuentes.html']
           for name in files:
               s = Path(name).read_text(encoding='utf-8')
-              for i, block in enumerate(re.findall(r'<script[^>]+type="application/ld\+json"[^>]*>(.*?)</script>', s, re.S), 1):
+              for block in re.findall(r'<script[^>]+type="application/ld\+json"[^>]*>(.*?)</script>', s, re.S):
                   json.loads(block)
               es = len(re.findall(r'\bdata-es=', s))
               en = len(re.findall(r'\bdata-en=', s))
