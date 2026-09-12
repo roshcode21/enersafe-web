@@ -1,0 +1,49 @@
+name: Apply public preview QA hotfix
+
+on:
+  push:
+    branches: [preview]
+    paths:
+      - '.proposal_payload/public-qa-trigger.txt'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: preview
+
+      - name: Apply editorial hotfix and run public QA
+        run: |
+          set -euo pipefail
+          python .proposal_payload/public_qa_hotfix.py
+
+      - name: Validate JavaScript
+        run: node --check js/site.js
+
+      - name: Validate structured data
+        run: |
+          python - <<'PY'
+          import json, re
+          from pathlib import Path
+          pages=['index.html','midesafe-sgm.html','gasafe-plus.html','autoconsumo.html','servicios.html','nosotros.html','contacto.html','preguntas-frecuentes.html']
+          for name in pages:
+              s=Path(name).read_text(encoding='utf-8')
+              for block in re.findall(r'<script[^>]+type="application/ld\+json"[^>]*>(.*?)</script>', s, re.S):
+                  json.loads(block)
+          print('Structured data OK')
+          PY
+
+      - name: Commit audited public preview
+        run: |
+          set -euo pipefail
+          rm -f .proposal_payload/public_qa_hotfix.py .proposal_payload/public-qa-trigger.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Public QA: fix Nosotros and differentiate Autoconsumo"
+          git push origin HEAD:preview
