@@ -1945,3 +1945,12 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
   visibility: visible !important;
   transform: none !important;
 }
+
+
+/* PUBLIC QA · AUTOCONSUMO SLIDE DIFFERENTIATION · 2026-09-11 */
+.autoconsumo-slide .slide-content{max-width:760px}
+.autoconsumo-slide .slide-badge{border-color:rgba(243,217,39,.42);background:rgba(243,217,39,.10)}
+.autoconsumo-slide .slide-badge .pulse{background:var(--yellow)}
+.slide-diagnostic{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 2px}
+.slide-diagnostic span{display:inline-flex;align-items:center;padding:7px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(7,12,8,.34);backdrop-filter:blur(8px);color:#eef4ea;font-size:.76rem;font-weight:600;letter-spacing:.01em}
+@media(max-width:720px){.slide-diagnostic{margin-top:16px}.slide-diagnostic span{font-size:.7rem;padding:6px 10px}}
